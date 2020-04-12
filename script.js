@@ -19,10 +19,12 @@ var questions = [
             'Alphabets are to letters',
             'Libraries are to languages',
             'Letters are to Alphabets',
-            'All of the above'],
+            'All of the above'
+            ],
+         answer : 'All of the Above'
     },
     {
-        question: 'Operators are always taken to indicate the same value b javascript regardless of context',
+        question: 'Operators are always taken to indicate the same value in ES6 regardless of context',
         choices: ['true',
             'false'],
         answer: 'false'
@@ -46,14 +48,18 @@ var questions = [
 
 var Q = 0;
 var correct = [];
-var time = 1000;
+var time = 60;
+var timerId = setInterval(timeDecrement, 1000);
 
 var startBtn = document.getElementById('start-button');
 var startScreenEl = document.getElementById('start-screen');
 var questionTitleEl = document.getElementById('question-title');
 var questionCardEl = document.getElementById('question-card');
+var endScreenEl  = document.getElementById('end-screen')
 var choicesEl = document.getElementById('choices');
 var timeEl = document.getElementById('timer');
+var scoreEl = document.getElementById('score');
+var responseEl = document.getElementById('response');
 
 function buildQuestionCard() {
     var currentQuestion = questions[Q];
@@ -78,25 +84,46 @@ function buildQuestionCard() {
 
     timeEl.textContent = time;
 }
+function timeDecrement() {
+    time--;
+    timeEl.textContent = time;
+  
+}
 
 function questionClick() {
+   
     //if the answer is wrong
     console.log(this.value);
     if (this.value !== questions[Q].answer) {
-        console.log('wrong');
-        alert("wrong");
-        //show wrong on screen
-        //subtract time
+        responseEl.textContent = 'wrong';
+        time -= 10;
+        if(time < 0) {
+            time = 0;
+        }
+        timeEl.textContent = time;
         //conditional to make sure there is still time
     } else {
         correct.push(questions[Q]);
-        console.log(correct);
-        //show right on the screen
+        responseEl.textContent = 'right'
+        time += 10;
         //add time
     }
     Q++;
-    buildQuestionCard();
-    //if the answer is right
+    if(Q === questions.length) {
+        endQuiz();
+    } else {
+        buildQuestionCard();
+    }
+    // evaluate if we are out of questions
+}
+function endQuiz() {
+    var score = parseInt(correct.length);
+    console.log(score)
+
+    questionCardEl.setAttribute('class', 'hide');
+    endScreenEl.removeAttribute('class');
+
+    scoreEl.textContent = "Score: " + score;
 }
 
 function startQuiz() {

@@ -35,8 +35,10 @@
   .choice {
     margin: 1rem;
     border-radius: 10px;
-    box-shadow: 2px 2px rgba(128, 128, 128, 0.8);
+    box-shadow: 2px 2px #808080cc;
     background-color: white;
+    width: 72px;
+    
   }
   #question-title {
     font-size: 25px;
